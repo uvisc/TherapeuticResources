@@ -1,0 +1,32 @@
+- add viewport meta-tag to the html templates
+
+RC1
+- Response with the proper content type header
+- Fix html links for SEO navigation
+- automatically generate sitemap.xml
+- allow to change the default date format in the settings file
+- allow to change the admin url in the settings file
+- remove whoops
+- use system_email in the From field of email messages
+- show 404 page when job offer doesn't exist
+
+Beta 2
+- allow users to delete job offers
+- allow users to edit job offers
+- fix bug which allowed users to publish job offers without validating the email address
+- set document title in job offers view page for SEO
+- make the server add the requested data to the template for SEO
+- force mysql driver to use utf8
+- add jsonp support
+- improve inline documentation
+- add API information to the docs
+- fix date format in /job/:id endpoint
+- update web field error message
+- show error message when wrong username or password is used in admin login form
+- disable the job offer submit button while the script waits the response from the server
+- update documentation
+- add license file
+- minimize and concatenate all JavaScript files
+
+Beta 1
+- initial beta release

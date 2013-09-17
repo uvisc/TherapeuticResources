@@ -1,0 +1,55 @@
+#mod-rewrite {
+  display: none;
+}
+header {
+  background-color: #2c3e50;
+  color: #fff;
+  margin-bottom: 1.5em;
+  padding: 1.5em 0;
+}
+.btn {
+  -webkit-appearance: none;
+  -webkit-box-align: center;
+  -webkit-box-shadow: none;
+  background-color:  #2ECC71;
+  background-image: none;
+  box-shadow:none;
+  box-sizing: border-box;
+  color: #fff;
+  border: none;
+  border-radius: 0px;
+  cursor: pointer;
+  display: inline-block;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  -webkit-text-shadow: none;
+  text-shadow: none;
+}
+
+.btn:hover {
+  background-color: #54d98c;
+  color: #fff;
+}
+#logo {
+  font-weight: bold;
+  line-height: 1.5em;
+}
+#form-panel {
+  margin-bottom: 1.5em;
+}
+#form-panel div {
+  background-color: #ecf0f1;
+  padding: 1em;
+}
+h4 {
+  margin-bottom: 1.5em;
+}
+
+.installed {
+  background-color: #ecf0f1;
+  line-height: 1.5em;
+  padding: 1.5em;
+  text-align: center;
+  margin-top: 1.5em;
+}

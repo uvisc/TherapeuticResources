@@ -1,0 +1,11 @@
+dbhost: your-database-host
+dbname: your-database-name
+dbuser: your-database-username
+dbpass: your-database-password
+app_name: your-application-name
+username: your-admin-username
+password: your-admin-password
+system_email: your-system-email-address
+debug: false
+admin_url: /admin
+date_format: m/d/Y

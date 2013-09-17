@@ -1,0 +1,181 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo $appName ?></title> <!-- the server will add your app name here -->
+    <base href="<?php echo $baseUrl; ?>"> <!-- the server will add your base url here -->
+    <link rel="stylesheet" href="components/bootstrap.css/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="components/bootstrap.css/css/bootstrap-responsive.min.css" type="text/css">
+    <link rel="stylesheet" href="components/uvisc/css/admin.css" type="text/css">
+
+    <!-- Job table td template view. Used in the listings view. -->
+    <script id="jobTemplate"  type="text/template">
+      <td>
+        <a href="#" class="jobTitle" data-id="<%= id %>"><%- title %></a><br>
+      </td>
+      <td class="companyColumn"><%- company %></td>
+      <td class="cityColumn"><%- city %></td>
+      <td class="dateColumn"><%= date %></td>
+      <td class="controlsColumn">
+        <% if(published == true) { %>
+        <button class="publish btn btn-danger">Unpublish</button>
+        <% } else { %>
+        <button class="publish btn">Publish</button>
+        <% } %>
+        <i class="delete icon-trash"></i>
+      </td>
+    </script>
+
+    <!-- Job view div. Used in the full job view. -->
+    <script id="jobviewTemplate"  type="text/template">
+      <div id="jobView">
+        <div class="container">
+          <div class="row-fluid">
+            <div class="span8">
+              <h1><%- title %></h1>
+              <p><%= description %></p>
+              <p class="viewControls">
+                <button class="btn btn-danger delete" id="delete">Delete</button>
+                <% if(published == true) { %>
+                <button class="publish btn btn-danger">Unpublish</button>
+                <% } else { %>
+                <button class="publish btn">Publish</button>
+                <% } %>
+                <button class="btn" id="edit">Edit</button>
+                <button class="btn" id="back">Back</button>
+              </p>
+            </div>
+            <div class="span4 jobInfo">
+              <h2 class="company"><%- company %></h2>
+              <div><%= date %></div>
+              <dl>
+                <dt>City</dt><dd> <%- city %> </dd>
+                <dt>Company</dt><dd> <%- company %> </dd>
+                <dt>Email</dt><dd> <%- email %> </dd>
+                <dt>Website</dt>
+                <dd> <a href="<%- web %>">Visit website</a> </dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+    </script>
+
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <span id="logo"><?php echo $appName ?></span> <!-- the server will add your app name here -->
+      </div>
+    </header>
+
+    <!-- log in form template -->
+    <div class="container">
+      <div id="login" class="row-fluid">
+          <div class="span12">
+            <form action="" method="post" id="loginForm" class="input-large">
+              <label for="username">Username</label>
+              <input type="text" name="username" value="" id="username" class="input-large" autofocus>
+              <label for="password">Password</label>
+              <input type="password" name="password" value="" id="password" class="input-large">
+              <p>
+                  <div id="errorMessage" class="text-error">Username or password is not valid</div>
+              </p>
+              <p><input type="submit" class="btn"></p>
+            </form>
+          </div>
+      </div>
+    </div>
+
+    <!-- job listings template: uses jobTemplate -->
+    <div class="container">
+      <div id="jobsContainer">
+        <div id="jobsListingsHeader" class="jobsListingsHeader row-fluid">
+          <div class="span6">
+            <button id="addJobButton" class="btn"><i class="icon-plus icon-white"></i> Add a job offer</button>
+          </div>
+          <div class="span6">
+            <form action="#" method="get" accept-charset="utf-8" class="form-search pull-right">
+              <input type="text" name="search" value="" id="searchForm" class="input-xlarge">
+              <button class="btn" id="search"><i class="icon-search icon-white"></i> Search</button>
+            </form>
+          </div>
+        </div>
+        <div id="empty">Sorry, there are no jobs.</div>
+        <table id="jobs" class="table table-striped">
+          <thead>
+            <tr>
+              <th>Job</th>
+              <th>Company</th>
+              <th>City</th>
+              <th>Date</th>
+              <th></th>
+            </tr>
+          </thead>
+        </table>
+        <button id="loadMore" class="btn disabled">Please wait...</button>
+      </div>
+    </div>
+
+    <!-- full job view element -->
+    <div id="job">
+    </div>
+
+    <!-- job form template -->
+    <div class="container">
+        <div id="addJob">
+            <div class="row-fluid">
+              <div class="span12">
+                <h1>Add a job offer</h1>
+                <form action="" method="post" id="addJobForm">
+                  <input type="hidden" name="id" id="id">
+                  <label for="title">Title</label>
+                  <input type="text" name="title" id="title" class="input-xxlarge">
+                  <p id="titleError" class="text-error"></p>
+                  <label for="company">Company</label>
+                  <input type="text" name="company" value="" id="company" class="input-xxlarge">
+                  <p id="companyError" class="text-error"></p>
+                  <label for="email">Email</label>
+                  <input type="text" name="email" value="" id="email" class="input-xxlarge">
+                  <p id="emailError" class="text-error"></p>
+                  <label for="city">City</label>
+                  <input type="text" name="city" value="" id="city" class="input-xxlarge">
+                  <p id="cityError" class="text-error"></p>
+                  <label for="web">Web <small class="muted"><em>(ex. http://example.com)</em></small></label>
+                  <input type="text" name="web" value="" id="web" class="input-xxlarge">
+                  <p id="webError" class="text-error"></p>
+                  <label for="description">Description</label>
+                  <textarea name="desciption" id="description" class="input-xxlarge" rows="10"></textarea>
+                  <p id="descriptionError" class="text-error"></p>
+                  <p>
+                    <input type="submit" id="submitJobButton" class="btn" value="Submit">
+                    <a href="#" id="cancel" class="btn btn-danger">Cancel</a>
+                  </p>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+    <script src="components/jquery/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="components/underscore/underscore-min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="components/backbone/backbone-min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="components/markdown/lib/markdown.js" type="text/javascript" charset="utf-8"></script>
+    <script src="components/uvisc/js/common.js" type="text/javascript" charset="utf-8"></script>
+    <script src="components/uvisc/js/admin.js" type="text/javascript" charset="utf-8"></script>
+
+    <script type="text/javascript" charset="utf-8">
+      // create view instances
+      var jobview = new App.Views.JobView();
+      var jobsView = new App.Views.Jobs();
+      var addJobForm = new App.Views.AddJob();
+      var AdminLogin = new App.Views.AdminLogin();
+
+      // initialize the router
+      var router = new App.Router;
+      Backbone.history.start({ pushState: true,  root: App.Base });
+    </script>
+  </body>
+</html>

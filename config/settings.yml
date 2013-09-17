@@ -1,0 +1,11 @@
+dbhost: localhost
+dbname: uviscjobs
+dbuser: root
+dbpass: ''
+app_name: uviscJobs
+username: uviscAdmin
+password: uvisc@12345
+system_email: e.uvalue@gmail.com
+debug: false
+admin_url: /admin
+date_format: m/d/Y

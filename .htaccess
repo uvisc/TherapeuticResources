@@ -1,0 +1,17 @@
+RewriteEngine On
+
+# Some hosts may require you to use the `RewriteBase` directive.
+# If you need to use the `RewriteBase` directive, it should be the
+# absolute physical path to the directory that contains this htaccess file.
+#
+# RewriteBase /
+
+RewriteRule ^install/install.css$ components/uvisc/css/install.css
+RewriteRule ^sitemap.xml$ sitemap.php
+
+RewriteCond %{REQUEST_URI} ^/config/.* [OR]
+RewriteCond %{REQUEST_URI} ^/src/.* [OR]
+RewriteCond %{REQUEST_URI} ^/templates/.* [OR]
+RewriteCond %{REQUEST_URI} ^/vendor/.* [OR]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [QSA,L]

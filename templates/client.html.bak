@@ -1,0 +1,280 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+      <?php
+        echo $appName;
+        if(isset($data['id'])) {
+          echo ' - ' . $data['title'];
+        }
+      ?>
+    </title> <!-- the server will add your app name here -->
+    <base href="<?php echo $baseUrl; ?>"> <!-- the server will add your base url here -->
+    <link rel="stylesheet" href="components/bootstrap.css/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="components/bootstrap.css/css/bootstrap-responsive.min.css" type="text/css">
+    <link rel="stylesheet" href="components/uvisc/css/style.css" type="text/css">
+
+    <!-- Job table td template view. Used in the listings view. -->
+    <script id="jobTemplate"  type="text/template">
+      <td>
+        <a href="#" class="jobTitle" data-id="<%= id %>"><%- title %></a><br>
+        <small class="muted"><%= shortDescription %></small>
+      </td>
+      <td class="companyColumn"><span class="separator"><%- company %></span></td>
+      <td class="cityColumn"><span class="separator"><%- city %></span></td>
+      <td class="dateColumn"><span class="separator"><%- date %></span></td>
+    </script>
+
+    <!-- Job view div. Used in the full job view. -->
+    <script id="jobviewTemplate"  type="text/template">
+      <div class="container">
+        <div id="jobView">
+          <div class="row-fluid">
+            <div class="span8">
+              <h1><%- title %></h1>
+              <p><%= description  %></p>
+              <p class="viewControls">
+                <button class="btn" id="edit">Edit</button>
+                <button class="btn" id="back">Back</button>
+              </p>
+            </div>
+            <div class="span4 jobInfo">
+              <h2 class="company"><%- company %></h2>
+              <div><%= date %></div>
+              <dl>  
+                <dt>City</dt><dd> <%- city %> </dd>
+                <dt>Company</dt><dd> <%- company %> </dd>
+                <dt>Website</dt>
+                <dd><a href="<%- web %>">Visit website</a></dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+    </script>
+
+  </head>
+  <body>
+    <header>
+        <div class="container">
+            <span id="logo"><?php echo $appName ?></span> <!-- the server will add your app name here -->
+        </div>
+    </header>
+
+    <!-- full job view element -->
+    <div id="job">
+      <?php
+      /**
+       * this PHP block is used to populate the job view from the server for SEO
+       * you can safely remove it if you want a pure HTML5 client with no PHP
+       */
+       if(isset($data['id'])) {
+      ?>
+        <div class="container">
+          <div id="jobView">
+            <div class="row-fluid">
+              <div class="span8">
+                <h1><?php echo htmlspecialchars($data['title']); ?></h1>
+                <p><?php echo htmlspecialchars($data['description']); ?></p>
+                <p class="viewControls">
+                  <button class="btn" id="edit">Edit</button>
+                  <button class="btn" id="back">Back</button>
+                </p>
+              </div>
+              <div class="span4 jobInfo">
+                <h2 class="company"><?php echo htmlspecialchars($data['company']); ?></h2>
+                <div><?php echo htmlspecialchars($data['date']); ?></div>
+                <dl>  
+                  <dt>City</dt><dd> <?php echo htmlspecialchars($data['city']); ?> </dd>
+                  <dt>Company</dt><dd> <?php echo htmlspecialchars($data['company']); ?> </dd>
+                  <dt>Website</dt>
+                  <dd><a href="<?php echo htmlspecialchars($data['web']); ?>">Visit website</a></dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      <?php 
+      } // The PHP block ends here
+      ?>
+    </div>
+
+    <!-- job listings template: uses jobTemplate -->
+    <div class="container">
+      <div id="jobsContainer">
+        <div id="jobsListingsHeader" class="jobsListingsHeader row-fluid">
+          <div class="span6">
+            <button id="addJobButton" class="btn"><i class="icon-plus icon-white"></i> Add a job offer</button>
+          </div>
+          <div class="span6">
+          <form action="#" method="get" accept-charset="utf-8" class="form-search pull-right">
+            <input type="text" name="search" value="" id="searchForm" class="input-xlarge">
+            <button class="btn" id="search"><i class="icon-search icon-white"></i> Search</button>
+          </form>
+          </div>
+        </div>
+        <table id="jobs" class="table table-striped">
+          <thead>
+            <tr>
+              <th>Job</th>
+              <th>Company</th>
+              <th>City</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <?php
+            /**
+             * this PHP block is used for SEO. If you want a pure HTML5 client you can remove safely remove it.
+            */
+            if(isset($data['jobs']) && is_array($data['jobs'])) {
+          ?>
+          <tbody>
+            <?php foreach($data['jobs'] as $job)  { ?>
+              <tr>
+              <td>
+                <a href="jobs/<?php echo $job['id']; ?>" class="jobTitle" data-id="jobs/<?php echo $job['id']; ?>">
+                <?php echo htmlspecialchars($job['title']); ?>
+              </a>
+              </td>
+              <td class="companyColumn"><span class="separator"><?php echo htmlspecialchars($job['company']); ?></span></td>
+              <td class="cityColumn"><span class="separator"><?php echo htmlspecialchars($job['city']); ?></span></td>
+              <td class="dateColumn"><span class="separator"><?php echo htmlspecialchars($job['date']); ?></span></td>
+              </tr>
+            <?php } ?>
+          </tbody>
+          <?php
+            } // the PHP block ends here
+          ?>
+        </table>
+        <div id="empty">Sorry, there are no jobs.</div>
+        <button id="loadMore" class="btn disabled">Please wait...</button>
+      </div>
+    </div>
+
+    <!-- job form template -->
+    <div class="container">
+      <div id="addJob">
+        <div class="row-fluid">
+          <div class="span12">
+            <h1>Add a job offer</h1>
+            <form action="" method="post" id="addJobForm" class="input-xxlarge">
+              <input type="hidden" name="id" id="id">
+              <label for="title">Title</label>
+              <input type="text" name="title" id="title" class="input-xxlarge">
+              <p id="titleError" class="text-error"></p>
+              <label for="company">Company</label>
+              <input type="text" name="company" value="" id="company" class="input-xxlarge">
+              <p id="companyError" class="text-error"></p>
+              <label for="email">Email</label>
+              <input type="text" name="email" value="" id="email" class="input-xxlarge">
+              <p id="emailError" class="text-error"></p>
+              <label for="city">City</label>
+              <input type="text" name="city" value="" id="city" class="input-xxlarge">
+              <p id="cityError" class="text-error"></p>
+              <label for="web">Web <small class="muted"><em>(ex. http://example.com)</em></small></label>
+              <input type="text" name="web" value="" id="web" class="input-xxlarge">
+              <p id="webError" class="text-error"></p>
+              <label for="description">Description <small class="muted"><em>(markdown allowed)</em></small></label>
+              <textarea name="desciption" id="description" class="input-xxlarge" rows="10"></textarea>
+              <p id="descriptionError" class="text-error"></p>
+              <p>
+                <input type="submit" id="submitJobButton" class="btn" value="Submit">
+                <a href="#" id="delete" class="btn btn-danger">Delete</a>
+                <a href="#" id="cancel" class="btn btn-danger">Cancel</a>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- email confirmation template -->
+    <div id="jobEditEmail" >
+      <div class="container">
+        <div id="jobEditEmailView">
+          <div class="row-fluid">
+            <div class="span12">
+              <h1>Enter your email</h1>
+              <form id="editEmailForm">
+                <label for="email">Email address</label>
+                <input type="text" name="email" value="" id="email">
+                <p id="emailEditError" class="text-error">
+                  The email address doesn't match with the one in the job offer.
+                </p>
+                <p>
+                  <input type="submit" id="submitJobEditButton" class="btn" value="Submit">
+                  <a href="#" id="cancelEdit" class="btn btn-danger">Cancel</a>
+                </p>
+              </form>
+              <p id="emailEditSent">
+                An email has been sent to your address with a link to edit this job offer.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- email confirmation template -->
+    <div id="jobEmailConfirmation" >
+      <div class="container">
+        <div id="jobView">
+          <div class="row-fluid">
+            <div class="span12">
+              <h1>Email confirmation needed</h1>
+              <p>Before publishing your job offer we need to confirm your email address. 
+              We sent you an email to your address, once it's confirmed we'll publish your offer. Thanks.</p>
+              <p class="viewControls"><button class="btn" id="back">Back</button></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- status 404 not found template -->
+    <div class="container">
+      <div id="status404">
+        Error 404. The page you're looking for doesn't exist.
+      </div>
+    </div>
+
+    <footer>
+      <div class="container muted">
+        <!-- footer contet here -->
+      </div>
+    </footer>
+
+<!-- Uncomment this block if you need to modify the JavaScript code-->
+
+    <script src="components/jquery/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="components/underscore/underscore-min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="components/backbone/backbone-min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="components/markdown/lib/markdown.js" type="text/javascript" charset="utf-8"></script>
+    <script src="components/uvisc/js/common.js" type="text/javascript" charset="utf-8"></script>
+<!--
+All JavaScript code is minimized in one single file -->
+
+    <!--<script src="components/joboo/js/client.min.js" type="text/javascript" charset="utf-8"></script>-->
+    <script type="text/javascript" charset="utf-8">
+        // view instances
+        var jobview = new App.Views.JobView();
+        var jobsView = new App.Views.Jobs();
+        var status404View = new App.Views.Status404();
+        var addJobForm = new App.Views.AddJob();
+        var emailConfirmation = new App.Views.EmailConfirmation();
+        var jobEditEmailView = new App.Views.JobEditEmail();
+
+        // initialize the router
+        var router = new App.Router();
+        Backbone.history.start({ pushState: true, root: App.Base });
+
+        // click event on logo
+        $('#logo').on('click', function(e) {
+          App.Events.trigger('home');
+          router.navigate('', true);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,174 @@
+body {
+  padding-bottom: 1.5em;
+}
+
+header {
+  background-color: #c0392b;
+  color: #fff;
+  margin-bottom: 1.5em;
+  padding: 1.5em 0;
+}
+
+#logo {
+  font-size: 4.5em;
+  font-weight: bold;
+  line-height: 1.5em;
+  cursor: pointer;
+}
+
+#login {
+  margin-top: 3em;
+}
+
+#errorMessage {
+  display: none;
+}
+
+#loginForm {
+  margin: auto;
+}
+
+.jobInfo {
+  padding: 0 1em 1em 1em;
+  background-color: #ecf0f1;
+}
+
+#jobsContainer, #jobView, #addJob {
+  padding: 1em;
+}
+
+#jobsContainer {
+  display: none;
+}
+
+#empty {
+  display: none;
+}
+
+#jobs {
+  display: none;
+}
+
+#addJob {
+  display: none;
+}
+
+.jobsListingsHeader {
+  margin-bottom: 3em;
+}
+
+#empty {
+  display: none;
+}
+
+td.controlsColumn {
+  width: 150px;
+  text-align: right;
+}
+
+.publish {
+}
+
+.delete {
+  cursor: pointer;
+}
+
+.companyColumn {
+  width: 150px;
+}
+
+.cityColumn, .dateColumn {
+  width: 80px;
+}
+
+.viewControls {
+  margin-top: 3em;
+}
+
+.btn {
+  -webkit-appearance: none;
+  -webkit-box-align: center;
+  -webkit-box-shadow: none;
+  background-color:  rgb(46, 204, 113);
+  background-image: none;
+  box-shadow:none;
+  box-sizing: border-box;
+  color: #fff;
+  border: none;
+  border-radius: 0px;
+  cursor: pointer;
+  display: inline-block;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  -webkit-text-shadow: none;
+  text-shadow: none;
+}
+
+.btn:hover {
+  background-color: #54d98c;
+  color: #fff;
+}
+.btn-danger, .btn-danger:hover {
+  background-color: #c0392b;
+}
+.btn.disabled, .btn.disabled:hover {
+  color: #333;
+  background-color: #ecf0f1;
+}
+
+/*********************
+ *** MEDIA QUERIES ***
+ *********************/
+
+@media  (max-width: 979px) {
+  #jobsListingsHeader .span6 {
+    text-align: center;
+  }
+  .form-search {
+    float: none;
+    display: block;
+  }
+  .form-search #search {
+    margin-top: 1em;
+  }
+}
+
+@media (max-width: 767px) {
+  .form-search {
+        margin-top: 1em;
+  }
+  header {
+    text-align: center;
+  }
+  .separator {
+      border-left: none;
+      display: block;
+      padding: 0;
+  }
+  .companyColumn {
+    width: auto;
+  }
+  .cityColumn, .dateColumn, td.controlsColumn {
+    width: auto;
+  }
+  tr {
+    width: 100%;
+  }
+  thead {
+    display: none;
+  }
+  #jobs td {
+    padding: 0;
+    padding-left: 1em;
+    border-style: none;
+    display: block;
+  }
+  #jobs td:last-child {
+    padding: 1em 0 1em 1em;
+    text-align: left;
+  }
+  #jobs td:first-child {
+    padding-top: 1em;
+  }
+}
